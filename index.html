@@ -31,296 +31,9 @@
   <!-- Tailwind CSS v4 via CDN for reliable loading -->
   <script src="https://cdn.tailwindcss.com?plugins=forms,typography,aspect-ratio,container-queries"></script>
   
-  <!-- Lark Design System Styles -->
+  <!-- Load Global CSS -->
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=SF+Mono:wght@400;500;600&display=swap');
-
-    :root {
-      --font-size: 14px;
-      
-      /* Lark Light Theme */
-      --background: #ffffff;
-      --foreground: oklch(0.145 0 0);
-      --card: #ffffff;
-      --card-foreground: oklch(0.145 0 0);
-      --popover: #ffffff;
-      --popover-foreground: oklch(0.145 0 0);
-      --primary: oklch(0.145 0 0);
-      --primary-foreground: #ffffff;
-      --secondary: #f1f5f9;
-      --secondary-foreground: oklch(0.145 0 0);
-      --muted: #ececf0;
-      --muted-foreground: #717182;
-      --accent: #e9ebef;
-      --accent-foreground: oklch(0.145 0 0);
-      --destructive: #dc2626;
-      --destructive-foreground: #ffffff;
-      --warning: #f59e0b;
-      --warning-foreground: #ffffff;
-      --success: #10b981;
-      --success-foreground: #ffffff;
-      --border: rgba(0, 0, 0, 0.1);
-      --input: #ffffff;
-      --input-background: #ffffff;
-      --ring: oklch(0.145 0 0);
-      
-      /* Terminal-specific colors */
-      --terminal-green: #00ff00;
-      --terminal-amber: #ffbf00;
-      --terminal-red: #ff0000;
-      --terminal-blue: #0080ff;
-      --terminal-cyan: #00ffff;
-      --terminal-magenta: #ff00ff;
-      
-      --font-weight-medium: 500;
-      --font-weight-normal: 400;
-      --radius: 0.25rem;
-    }
-
-    .dark {
-      /* Lark Dark Theme */
-      --background: oklch(0.145 0 0);
-      --foreground: oklch(0.985 0 0);
-      --card: oklch(0.145 0 0);
-      --card-foreground: oklch(0.985 0 0);
-      --popover: oklch(0.145 0 0);
-      --popover-foreground: oklch(0.985 0 0);
-      --primary: oklch(0.985 0 0);
-      --primary-foreground: oklch(0.145 0 0);
-      --secondary: oklch(0.269 0 0);
-      --secondary-foreground: oklch(0.985 0 0);
-      --muted: oklch(0.269 0 0);
-      --muted-foreground: #64748b;
-      --accent: oklch(0.269 0 0);
-      --accent-foreground: oklch(0.985 0 0);
-      --destructive: #dc2626;
-      --destructive-foreground: #ffffff;
-      --border: oklch(0.269 0 0);
-      --input: oklch(0.269 0 0);
-      --input-background: oklch(0.145 0 0);
-      --ring: oklch(0.985 0 0);
-    }
-
-    /* Base styles */
-    * {
-      border-color: var(--border);
-    }
-
-    body {
-      background-color: var(--background);
-      color: var(--foreground);
-      font-family: 'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, 'Courier New', monospace;
-      font-size: var(--font-size);
-      line-height: 1.5;
-      min-height: 100vh;
-    }
-
-    /* Terminal Loading Animation */
-    .terminal-loading {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: var(--background);
-      color: var(--foreground);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      font-family: 'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, 'Courier New', monospace;
-      font-size: 14px;
-      z-index: 9999;
-      transition: opacity 0.3s ease-out;
-    }
-    
-    .terminal-prompt {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      margin-bottom: 16px;
-    }
-    
-    .terminal-cursor {
-      width: 8px;
-      height: 16px;
-      background: currentColor;
-      animation: terminal-blink 1s infinite;
-    }
-    
-    @keyframes terminal-blink {
-      0%, 50% { opacity: 1; }
-      51%, 100% { opacity: 0; }
-    }
-    
-    .terminal-status {
-      font-size: 12px;
-      opacity: 0.7;
-      margin-top: 8px;
-    }
-
-    /* Terminal Components */
-    .terminal-card {
-      background-color: var(--card);
-      border: 1px solid var(--border);
-      border-radius: calc(var(--radius) + 2px);
-      padding: 1rem;
-      transition: background-color 200ms ease-out;
-    }
-
-    .terminal-card:hover {
-      background-color: color-mix(in srgb, var(--muted) 20%, transparent);
-    }
-
-    .terminal-code {
-      background-color: var(--muted);
-      padding: 0.125rem 0.5rem;
-      border-radius: var(--radius);
-      font-family: 'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, 'Courier New', monospace;
-      font-size: 0.75rem;
-      border: 1px solid var(--border);
-    }
-
-    .status-dot {
-      width: 0.5rem;
-      height: 0.5rem;
-      border-radius: 50%;
-    }
-    
-    .status-dot.active {
-      background-color: var(--terminal-green);
-      animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-    }
-    
-    .status-dot.warning {
-      background-color: var(--terminal-amber);
-      animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-    }
-    
-    .status-dot.error {
-      background-color: var(--terminal-red);
-      animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-    }
-    
-    .status-dot.inactive {
-      background-color: var(--muted-foreground);
-    }
-
-    @keyframes pulse {
-      0%, 100% { opacity: 1; }
-      50% { opacity: .5; }
-    }
-
-    /* Scrollbar */
-    .subtle-scrollbar {
-      scrollbar-width: thin;
-      scrollbar-color: rgba(0, 0, 0, 0.1) transparent;
-    }
-
-    .subtle-scrollbar::-webkit-scrollbar {
-      width: 8px;
-      height: 8px;
-    }
-
-    .subtle-scrollbar::-webkit-scrollbar-thumb {
-      background-color: rgba(0, 0, 0, 0.1);
-      border-radius: 4px;
-      transition: background-color 0.2s ease;
-    }
-
-    .subtle-scrollbar::-webkit-scrollbar-thumb:hover {
-      background-color: rgba(0, 0, 0, 0.2);
-    }
-
-    .subtle-scrollbar::-webkit-scrollbar-track {
-      background: transparent;
-    }
-
-    .dark .subtle-scrollbar {
-      scrollbar-color: rgba(255, 255, 255, 0.1) transparent;
-    }
-
-    .dark .subtle-scrollbar::-webkit-scrollbar-thumb {
-      background-color: rgba(255, 255, 255, 0.1);
-    }
-
-    .dark .subtle-scrollbar::-webkit-scrollbar-thumb:hover {
-      background-color: rgba(255, 255, 255, 0.2);
-    }
-
-    /* Hide loading when React has mounted */
-    .react-mounted .terminal-loading {
-      opacity: 0;
-      pointer-events: none;
-    }
-
-    /* Animation utilities */
-    .animate-underline {
-      position: relative;
-      transition: all 200ms ease-out;
-    }
-    
-    .animate-underline::after {
-      content: '';
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      width: 100%;
-      height: 1px;
-      background: currentColor;
-      transform: scaleX(0);
-      transition: transform 200ms ease-out;
-    }
-    
-    .animate-underline:hover::after {
-      transform: scaleX(1);
-    }
-
-    /* Terminal button */
-    .terminal-button {
-      display: inline-flex;
-      align-items: center;
-      padding: 0.375rem 0.75rem;
-      font-size: 0.875rem;
-      font-family: 'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, 'Courier New', monospace;
-      background-color: transparent;
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      transition: all 200ms ease-out;
-      position: relative;
-    }
-
-    .terminal-button:hover {
-      background-color: color-mix(in srgb, var(--muted) 50%, transparent);
-    }
-
-    .terminal-button::before {
-      content: '';
-      position: absolute;
-      left: 0;
-      top: 0;
-      width: 1px;
-      height: 100%;
-      background: var(--primary);
-      transform: scaleY(0);
-      transition: transform 200ms ease-out;
-    }
-    
-    .terminal-button:hover::before {
-      transform: scaleY(1);
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-      * {
-        animation: none !important;
-        transition: none !important;
-      }
-      
-      .terminal-button::before,
-      .animate-underline::after {
-        display: none !important;
-      }
-    }
+    @import url('/styles/globals.css');
   </style>
   
   <!-- Theme Detection Script (executed immediately to prevent flash) -->
@@ -377,6 +90,84 @@
       };
     })();
   </script>
+  
+  <!-- Terminal Loading Styles -->
+  <style>
+    /* Critical loading styles to prevent flash */
+    #root {
+      min-height: 100vh;
+      font-family: 'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, 'Courier New', monospace;
+    }
+    
+    /* Terminal Loading Animation */
+    .terminal-loading {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: var(--color-background, #ffffff);
+      color: var(--color-foreground, #25262b);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      font-family: 'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, 'Courier New', monospace;
+      font-size: 14px;
+      z-index: 9999;
+      transition: opacity 0.3s ease-out;
+    }
+    
+    .dark .terminal-loading {
+      background: var(--color-background, #25262b);
+      color: var(--color-foreground, #ffffff);
+    }
+    
+    .terminal-prompt {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+    
+    .terminal-cursor {
+      width: 8px;
+      height: 16px;
+      background: currentColor;
+      animation: terminal-blink 1s infinite;
+    }
+    
+    @keyframes terminal-blink {
+      0%, 50% { opacity: 1; }
+      51%, 100% { opacity: 0; }
+    }
+    
+    .terminal-status {
+      font-size: 12px;
+      opacity: 0.7;
+      margin-top: 8px;
+    }
+
+    .terminal-code {
+      background-color: rgba(0, 0, 0, 0.1);
+      padding: 0.125rem 0.5rem;
+      border-radius: 0.25rem;
+      font-family: 'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, 'Courier New', monospace;
+      font-size: 0.75rem;
+      border: 1px solid rgba(0, 0, 0, 0.1);
+    }
+
+    .dark .terminal-code {
+      background-color: rgba(255, 255, 255, 0.1);
+      border-color: rgba(255, 255, 255, 0.1);
+    }
+
+    /* Hide loading when React has mounted */
+    .react-mounted .terminal-loading {
+      opacity: 0;
+      pointer-events: none;
+    }
+  </style>
 </head>
 
 <body class="h-full">
@@ -403,7 +194,17 @@
         "react-dom": "https://esm.sh/react-dom@18.3.1",
         "react-dom/client": "https://esm.sh/react-dom@18.3.1/client",
         "three": "https://esm.sh/three@0.176.0",
-        "three/examples/jsm/controls/OrbitControls": "https://esm.sh/three@0.176.0/examples/jsm/controls/OrbitControls"
+        "three/examples/jsm/controls/OrbitControls": "https://esm.sh/three@0.176.0/examples/jsm/controls/OrbitControls",
+        "react-hook-form": "https://esm.sh/react-hook-form@7.55.0",
+        "sonner": "https://esm.sh/sonner@2.0.3",
+        "lucide-react": "https://esm.sh/lucide-react@0.445.0",
+        "recharts": "https://esm.sh/recharts@2.12.7",
+        "react-slick": "https://esm.sh/react-slick@0.30.2",
+        "react-responsive-masonry": "https://esm.sh/react-responsive-masonry@2.1.7",
+        "react-dnd": "https://esm.sh/react-dnd@16.0.1",
+        "framer-motion": "https://esm.sh/framer-motion@11.5.4",
+        "@floating-ui/react": "https://esm.sh/@floating-ui/react@0.26.23",
+        "re-resizable": "https://esm.sh/re-resizable@6.9.11"
       }
     }
   </script>
@@ -475,144 +276,39 @@
     // Load and mount React application
     async function initializeApp() {
       try {
+        // Import React and ReactDOM
         const React = await import('react');
         const ReactDOM = await import('react-dom/client');
         
-        // Create a minimal App component with terminal styling for initial display
-        const { useState, useEffect } = React;
+        // Update status
+        statusElement.textContent = 'loading application components...';
         
-        function App() {
-          const [mounted, setMounted] = useState(false);
-          
-          useEffect(() => {
-            setMounted(true);
-            console.log('%c tm %c systems nominal - interface mounted', 
-              'background: #25262b; color: #ffffff; padding: 2px 6px; font-family: monospace;',
-              'color: #10b981; font-family: monospace; font-size: 12px;'
-            );
-          }, []);
-          
-          if (!mounted) {
-            return React.createElement('div', {
-              className: 'min-h-screen bg-background font-mono flex items-center justify-center',
-              style: {
-                backgroundColor: 'var(--background)',
-                color: 'var(--foreground)',
-                fontFamily: "'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, 'Courier New', monospace"
-              }
-            }, React.createElement('div', {
-              className: 'terminal-prompt'
-            }, 
-              React.createElement('span', { className: 'terminal-code' }, 'tm'),
-              React.createElement('span', null, 'loading components...')
-            ));
-          }
-          
-          return React.createElement('div', {
-            className: 'min-h-screen bg-background font-mono subtle-scrollbar',
-            style: {
-              backgroundColor: 'var(--background)',
-              color: 'var(--foreground)',
-              fontFamily: "'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, 'Courier New', monospace"
-            }
-          }, React.createElement('div', {
-            className: 'max-w-full mx-auto p-4 space-y-4'
-          }, [
-            // Terminal Header
-            React.createElement('div', {
-              key: 'header',
-              className: 'terminal-card'
-            }, React.createElement('div', {
-              className: 'flex items-center justify-between mb-4'
-            }, [
-              React.createElement('div', {
-                key: 'left',
-                className: 'flex items-center gap-4'
-              }, [
-                React.createElement('span', { 
-                  key: 'icon',
-                  className: 'terminal-code' 
-                }, 'tm'),
-                React.createElement('div', { key: 'title' }, [
-                  React.createElement('h1', {
-                    key: 'h1',
-                    className: 'text-primary mb-1 animate-underline',
-                    style: { color: 'var(--primary)' }
-                  }, 'render-neural'),
-                  React.createElement('p', {
-                    key: 'subtitle',
-                    className: 'text-muted-foreground text-xs',
-                    style: { color: 'var(--muted-foreground)', fontSize: '0.75rem' }
-                  }, 'spatial intelligence & neural field processing')
-                ])
-              ]),
-              React.createElement('div', {
-                key: 'right',
-                className: 'flex items-center gap-3'
-              }, [
-                React.createElement('div', {
-                  key: 'time',
-                  className: 'text-right text-xs text-muted-foreground',
-                  style: { color: 'var(--muted-foreground)', fontSize: '0.75rem' }
-                }, [
-                  React.createElement('div', { key: 'label' }, 'system time'),
-                  React.createElement('div', { 
-                    key: 'value',
-                    className: 'font-mono' 
-                  }, new Date().toISOString().replace('T', ' ').split('.')[0])
-                ]),
-                React.createElement('div', {
-                  key: 'status',
-                  className: 'terminal-code',
-                  style: { color: 'var(--terminal-green)' }
-                }, 'operational')
-              ])
-            ])),
-            
-            // Main Content
-            React.createElement('div', {
-              key: 'content',
-              className: 'terminal-card'
-            }, React.createElement('div', {
-              className: 'p-4 text-center'
-            }, [
-              React.createElement('div', {
-                key: 'status',
-                className: 'flex items-center justify-center gap-2 mb-4'
-              }, [
-                React.createElement('span', { 
-                  key: 'dot',
-                  className: 'status-dot active' 
-                }),
-                React.createElement('span', {
-                  key: 'text',
-                  className: 'text-sm',
-                  style: { color: 'var(--foreground)' }
-                }, 'neural interface initialized')
-              ]),
-              React.createElement('div', {
-                key: 'info',
-                className: 'space-y-2 text-xs',
-                style: { color: 'var(--muted-foreground)' }
-              }, [
-                React.createElement('div', { key: '1' }, 'terminal-centric design system active'),
-                React.createElement('div', { key: '2' }, 'monospace typography loaded'),
-                React.createElement('div', { key: '3' }, 'lark components ready'),
-                React.createElement('div', { key: '4' }, 'awaiting full component mount...')
-              ])
-            ]))
-          ]));
-        }
+        // Import the actual App component from App.tsx
+        const AppModule = await import('./App.tsx');
+        const App = AppModule.default;
+        
+        // Update status
+        statusElement.textContent = 'mounting neural interface...';
+        
+        console.log('%c tm %c application components loaded', 
+          'background: #25262b; color: #ffffff; padding: 2px 6px; font-family: monospace;',
+          'color: #10b981; font-family: monospace; font-size: 12px;'
+        );
 
         // Mount the React application
         const root = ReactDOM.createRoot(rootElement);
         root.render(React.createElement(App));
         
+        console.log('%c tm %c systems nominal - interface mounted', 
+          'background: #25262b; color: #ffffff; padding: 2px 6px; font-family: monospace;',
+          'color: #10b981; font-family: monospace; font-size: 12px;'
+        );
+        
         // Hide loading screen after mount
         setTimeout(hideLoadingScreen, 1000);
         
       } catch (error) {
-        console.error('%c er %c failed to initialize react app:', 
+        console.error('%c er %c failed to initialize application:', 
           'background: #dc2626; color: #ffffff; padding: 2px 6px; font-family: monospace;',
           'color: #dc2626; font-family: monospace;',
           error
@@ -622,14 +318,14 @@
         rootElement.innerHTML = `
           <div style="
             min-height: 100vh;
-            background-color: var(--background);
-            color: var(--foreground);
+            background-color: var(--color-background, #ffffff);
+            color: var(--color-foreground, #25262b);
             font-family: 'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, 'Courier New', monospace;
             display: flex;
             align-items: center;
             justify-content: center;
             padding: 2rem;
-          ">
+          " class="dark:bg-[oklch(0.145_0_0)] dark:text-[oklch(0.985_0_0)]">
             <div style="text-align: center;">
               <div style="
                 display: flex;
@@ -638,17 +334,26 @@
                 gap: 0.5rem;
                 margin-bottom: 1rem;
               ">
-                <span class="status-dot error"></span>
-                <span class="terminal-code" style="color: var(--terminal-red);">er</span>
+                <div style="
+                  width: 0.5rem;
+                  height: 0.5rem;
+                  border-radius: 50%;
+                  background-color: #dc2626;
+                  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+                "></div>
+                <span class="terminal-code" style="color: #dc2626;">er</span>
                 <span>system initialization failed</span>
               </div>
               <div style="
                 font-size: 0.75rem;
-                color: var(--muted-foreground);
+                color: #64748b;
                 max-width: 600px;
               ">
                 <div>neural interface could not be mounted</div>
                 <div style="margin-top: 0.5rem;">check console for detailed error information</div>
+                <div style="margin-top: 1rem; padding: 1rem; background: rgba(0,0,0,0.05); border-radius: 0.25rem; font-family: monospace;">
+                  ${error.message || 'Unknown error occurred'}
+                </div>
               </div>
             </div>
           </div>
@@ -677,12 +382,41 @@
     // Initialize the application
     initializeApp();
 
-    // Fallback - hide loading after 10 seconds regardless
+    // Fallback - hide loading after 15 seconds regardless
     setTimeout(() => {
       if (!document.body.classList.contains('react-mounted')) {
+        console.warn('%c wr %c application loading timeout - forcing mount', 
+          'background: #f59e0b; color: #ffffff; padding: 2px 6px; font-family: monospace;',
+          'color: #f59e0b; font-family: monospace;'
+        );
         hideLoadingScreen();
       }
-    }, 10000);
+    }, 15000);
+  </script>
+
+  <!-- Service Worker Registration for PWA capabilities -->
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        // Only register service worker in production
+        if (location.hostname !== 'localhost' && location.hostname !== '127.0.0.1') {
+          navigator.serviceWorker.register('/sw.js')
+            .then((registration) => {
+              console.log('%c sw %c service worker registered', 
+                'background: #0080ff; color: #ffffff; padding: 2px 6px; font-family: monospace;',
+                'color: #64748b; font-family: monospace;'
+              );
+            })
+            .catch((error) => {
+              console.warn('%c sw %c service worker registration failed:', 
+                'background: #f59e0b; color: #ffffff; padding: 2px 6px; font-family: monospace;',
+                'color: #f59e0b; font-family: monospace;',
+                error
+              );
+            });
+        }
+      });
+    }
   </script>
 </body>
 </html>
