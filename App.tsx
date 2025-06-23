@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import { DepthCamera } from './components/DepthCamera';
 import { DepthVisualizer } from './components/DepthVisualizer';
 import { SurfaceNormalVisualizer } from './components/SurfaceNormalVisualizer';
@@ -97,7 +97,6 @@ export default function App() {
   const [assetManagementCollapsed, setAssetManagementCollapsed] = useState(false);
   const [exportManagementCollapsed, setExportManagementCollapsed] = useState(false);
   const [sensorControlsCollapsed, setSensorControlsCollapsed] = useState(false);
-  const [processingParamsCollapsed, setProcessingParamsCollapsed] = useState(false);
   const [operationsConsoleCollapsed, setOperationsConsoleCollapsed] = useState(false);
   const [timelineAnalysisCollapsed, setTimelineAnalysisCollapsed] = useState(false);
   const [autonomousDeploymentCollapsed, setAutonomousDeploymentCollapsed] = useState(false);
@@ -138,10 +137,6 @@ export default function App() {
     queueLength: 0,
     apiStatus: 'connected' as 'connected' | 'disconnected' | 'invalid'
   });
-
-  // Generated content state
-  const [generatedImages, setGeneratedImages] = useState<string[]>([]);
-  const [generatedVideos, setGeneratedVideos] = useState<string[]>([]);
 
   // Autonomous Deployment System State
   const [deploymentSectors, setDeploymentSectors] = useState([
@@ -231,24 +226,6 @@ export default function App() {
     distributedTasks: 156,
     taskCompletionRate: 0.94
   });
-
-  const [calibrationStats, setCalibrationStats] = useState({
-    totalCalibrations: 23,
-    autonomousCalibrations: 21,
-    manualInterventions: 2,
-    lastCalibration: new Date(Date.now() - 300000),
-    averageCalibrationTime: 4.2, // minutes
-    calibrationAccuracy: 0.967,
-    driftCorrections: 45,
-    baselineAdjustments: 12,
-    parameterOptimizations: 78
-  });
-
-  const [stagePointTypes] = useState([
-    'initialization', 'sensor_init', 'network_est', 'baseline_cal',
-    'agent_deploy', 'validation', 'cross_check', 'optimization', 
-    'fine_tune', 'operational'
-  ]);
 
   // Workflow Progress State
   const [workflowProgress, setWorkflowProgress] = useState({
@@ -408,8 +385,7 @@ export default function App() {
   };
 
   // Stability AI handlers
-  const handleImageGenerated = (imageData: string) => {
-    setGeneratedImages(prev => [imageData, ...prev.slice(0, 9)]); // Keep last 10
+  const handleImageGenerated = () => {
     setStabilityAIStats(prev => ({
       ...prev,
       totalGenerations: prev.totalGenerations + 1,
@@ -418,8 +394,7 @@ export default function App() {
     }));
   };
 
-  const handleVideoGenerated = (videoData: string) => {
-    setGeneratedVideos(prev => [videoData, ...prev.slice(0, 4)]); // Keep last 5
+  const handleVideoGenerated = () => {
     setStabilityAIStats(prev => ({
       ...prev,
       totalGenerations: prev.totalGenerations + 1,
@@ -451,56 +426,6 @@ export default function App() {
         ? { ...sector, status: 'calibrating', calibrationStatus: 'autonomous' }
         : sector
     ));
-    
-    setCalibrationStats(prev => ({
-      ...prev,
-      totalCalibrations: prev.totalCalibrations + 1,
-      autonomousCalibrations: prev.autonomousCalibrations + 1,
-      lastCalibration: new Date()
-    }));
-  };
-
-  const handleAIAgentDeploy = (sectorId: string) => {
-    console.log(`deploying ai agent to sector: ${sectorId}`);
-    setDeploymentSectors(prev => prev.map(sector => 
-      sector.id === sectorId 
-        ? { ...sector, aiAgents: sector.aiAgents + 1 }
-        : sector
-    ));
-    
-    setAiAgentStats(prev => ({
-      ...prev,
-      totalAgents: prev.totalAgents + 1,
-      activeAgents: prev.activeAgents + 1,
-      distributedTasks: prev.distributedTasks + 1,
-      lastDecision: new Date()
-    }));
-  };
-
-  const handleBasePointAdjust = (sectorId: string) => {
-    console.log(`adjusting basepoint for sector: ${sectorId}`);
-    setDeploymentSectors(prev => prev.map(sector => 
-      sector.id === sectorId 
-        ? { 
-            ...sector, 
-            floatingParams: {
-              ...sector.floatingParams,
-              basepoint: {
-                x: sector.floatingParams.basepoint.x + (Math.random() - 0.5) * 0.1,
-                y: sector.floatingParams.basepoint.y + (Math.random() - 0.5) * 0.1,
-                z: sector.floatingParams.basepoint.z + (Math.random() - 0.5) * 0.1
-              },
-              confidence: Math.min(0.99, sector.floatingParams.confidence + 0.02)
-            }
-          }
-        : sector
-    ));
-    
-    setCalibrationStats(prev => ({
-      ...prev,
-      baselineAdjustments: prev.baselineAdjustments + 1,
-      parameterOptimizations: prev.parameterOptimizations + 1
-    }));
   };
 
   const handleGlobalAutonomousMode = () => {
@@ -634,6 +559,15 @@ export default function App() {
 
     return () => clearInterval(interval);
   }, []);
+
+  const handleParamsChange = (params: { depthScale?: number; smoothing?: number; threshold?: number; normalStrength?: number }) => {
+    setProcessingParams(prevParams => ({
+      depthScale: params.depthScale ?? prevParams.depthScale,
+      smoothing: params.smoothing ?? prevParams.smoothing,
+      threshold: params.threshold ?? prevParams.threshold,
+      normalStrength: params.normalStrength ?? prevParams.normalStrength
+    }));
+  };
 
   const handleDepthUpdate = (newDepthData: Float32Array) => {
     setDepthData(newDepthData);
@@ -864,16 +798,6 @@ export default function App() {
     }
   };
 
-  const formatTimeAgo = (date: Date | null) => {
-    if (!date) return 'never';
-    const seconds = Math.floor((new Date().getTime() - date.getTime()) / 1000);
-    if (seconds < 60) return `${seconds}s ago`;
-    const minutes = Math.floor(seconds / 60);
-    if (minutes < 60) return `${minutes}m ago`;
-    const hours = Math.floor(minutes / 60);
-    return `${hours}h ago`;
-  };
-
   const getStatusIndicator = (status: string) => {
     switch (status) {
       case 'syncing': 
@@ -893,16 +817,6 @@ export default function App() {
       case 'operational': return 'text-terminal-green';
       case 'deploying': return 'text-terminal-blue';
       case 'calibrating': return 'text-terminal-amber';
-      case 'error': return 'text-terminal-red';
-      default: return 'text-muted-foreground';
-    }
-  };
-
-  const getCalibrationStatusColor = (status: string) => {
-    switch (status) {
-      case 'autonomous': return 'text-terminal-green';
-      case 'manual_required': return 'text-terminal-amber';
-      case 'pending': return 'text-muted-foreground';
       case 'error': return 'text-terminal-red';
       default: return 'text-muted-foreground';
     }
@@ -966,10 +880,6 @@ export default function App() {
 
   const getTotalInstances = () => {
     return deploymentSectors.reduce((sum, sector) => sum + sector.instances, 0);
-  };
-
-  const getActiveInstances = () => {
-    return deploymentSectors.reduce((sum, sector) => sum + sector.activeInstances, 0);
   };
 
   // Initialize timeline stats
@@ -1351,14 +1261,15 @@ export default function App() {
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
                 <div className="space-y-4">
                   <DepthCamera
+                    isActive={isProcessing}
+                    cameraId={currentSensor}
                     onDepthUpdate={handleDepthUpdate}
-                    isProcessing={isProcessing}
-                    selectedSensor={currentSensor}
-                    sensorSystems={sensorSystems}
+                    onNormalUpdate={handleNormalUpdate}
+                    processingParams={processingParams}
                   />
                   <DepthControls
                     params={processingParams}
-                    onParamsChange={setProcessingParams}
+                    onParamsChange={handleParamsChange}
                     isProcessing={isProcessing}
                   />
                 </div>
@@ -1372,7 +1283,7 @@ export default function App() {
                     onSensorChange={setCurrentSensor}
                     sensorSystems={sensorSystems}
                     params={processingParams}
-                    onParamsChange={setProcessingParams}
+                    onParamsChange={handleParamsChange}
                   />
                   <FloatingCameraSelector
                     sensors={sensorSystems}
@@ -1531,7 +1442,8 @@ export default function App() {
                   <DepthVisualizer
                     depthData={depthData}
                     isProcessing={isProcessing}
-                    params={processingParams}
+                    width={640}
+                    height={480}
                   />
                 </TabsContent>
 
@@ -1540,8 +1452,8 @@ export default function App() {
                     normalData={normalData}
                     depthData={depthData}
                     isProcessing={isProcessing}
-                    onNormalUpdate={handleNormalUpdate}
-                    params={processingParams}
+                    width={640}
+                    height={480}
                   />
                 </TabsContent>
 
@@ -1577,7 +1489,8 @@ export default function App() {
                     depthData={depthData}
                     normalData={normalData}
                     isProcessing={isProcessing}
-                    params={processingParams}
+                    width={640}
+                    height={480}
                   />
                 </TabsContent>
 
@@ -1982,12 +1895,9 @@ export default function App() {
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
                 <TimelineViewer
                   onEventSelect={handleTimelineEventSelect}
-                  isAnalyzing={workflowProgress.timelineAnalysis.isRunning}
+                  onSearchQuery={handleAISearchQuery}
                 />
-                <AISearchPanel
-                  onSearch={handleAISearchQuery}
-                  threatLevel={timelineStats.intelligence.threatLevel}
-                />
+                <AISearchPanel />
               </div>
             </div>
           )}
@@ -2103,9 +2013,7 @@ export default function App() {
               <ExportPanel
                 depthData={depthData}
                 normalData={normalData}
-                onQuickExport={handleQuickExport}
-                onDistribute={handleDistribution}
-                exportStats={exportStats}
+                isProcessing={isProcessing}
               />
             </div>
           )}
