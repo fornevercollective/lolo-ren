@@ -1,0 +1,348 @@
+@import url('https://fonts.googleapis.com/css2?family=SF+Mono:wght@400;500;600&display=swap');
+
+@custom-variant dark (&:is(.dark *));
+
+:root {
+  --font-size: 14px;
+  
+  /* Lark Light Theme */
+  --background: #ffffff;
+  --foreground: oklch(0.145 0 0);
+  --card: #ffffff;
+  --card-foreground: oklch(0.145 0 0);
+  --popover: #ffffff;
+  --popover-foreground: oklch(0.145 0 0);
+  --primary: oklch(0.145 0 0);
+  --primary-foreground: #ffffff;
+  --secondary: #f1f5f9;
+  --secondary-foreground: oklch(0.145 0 0);
+  --muted: #ececf0;
+  --muted-foreground: #717182;
+  --accent: #e9ebef;
+  --accent-foreground: oklch(0.145 0 0);
+  --destructive: #dc2626;
+  --destructive-foreground: #ffffff;
+  --warning: #f59e0b;
+  --warning-foreground: #ffffff;
+  --success: #10b981;
+  --success-foreground: #ffffff;
+  --border: rgba(0, 0, 0, 0.1);
+  --input: #ffffff;
+  --input-background: #ffffff;
+  --ring: oklch(0.145 0 0);
+  
+  /* Terminal-specific colors */
+  --terminal-green: #00ff00;
+  --terminal-amber: #ffbf00;
+  --terminal-red: #ff0000;
+  --terminal-blue: #0080ff;
+  --terminal-cyan: #00ffff;
+  --terminal-magenta: #ff00ff;
+  
+  --font-weight-medium: 500;
+  --font-weight-normal: 400;
+  --radius: 0.25rem;
+  
+  /* Sidebar colors */
+  --sidebar: #f8fafc;
+  --sidebar-foreground: oklch(0.145 0 0);
+  --sidebar-primary: oklch(0.145 0 0);
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #e9ebef;
+  --sidebar-accent-foreground: oklch(0.145 0 0);
+  --sidebar-border: rgba(0, 0, 0, 0.1);
+  --sidebar-ring: oklch(0.145 0 0);
+}
+
+.dark {
+  /* Lark Dark Theme */
+  --background: oklch(0.145 0 0);
+  --foreground: oklch(0.985 0 0);
+  --card: oklch(0.145 0 0);
+  --card-foreground: oklch(0.985 0 0);
+  --popover: oklch(0.145 0 0);
+  --popover-foreground: oklch(0.985 0 0);
+  --primary: oklch(0.985 0 0);
+  --primary-foreground: oklch(0.145 0 0);
+  --secondary: oklch(0.269 0 0);
+  --secondary-foreground: oklch(0.985 0 0);
+  --muted: oklch(0.269 0 0);
+  --muted-foreground: #64748b;
+  --accent: oklch(0.269 0 0);
+  --accent-foreground: oklch(0.985 0 0);
+  --destructive: #dc2626;
+  --destructive-foreground: #ffffff;
+  --border: oklch(0.269 0 0);
+  --input: oklch(0.269 0 0);
+  --input-background: oklch(0.145 0 0);
+  --ring: oklch(0.985 0 0);
+  
+  /* Sidebar dark colors */
+  --sidebar: oklch(0.145 0 0);
+  --sidebar-foreground: oklch(0.985 0 0);
+  --sidebar-primary: oklch(0.985 0 0);
+  --sidebar-primary-foreground: oklch(0.145 0 0);
+  --sidebar-accent: oklch(0.269 0 0);
+  --sidebar-accent-foreground: oklch(0.985 0 0);
+  --sidebar-border: oklch(0.269 0 0);
+  --sidebar-ring: oklch(0.985 0 0);
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-warning: var(--warning);
+  --color-warning-foreground: var(--warning-foreground);
+  --color-success: var(--success);
+  --color-success-foreground: var(--success-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-input-background: var(--input-background);
+  --color-ring: var(--ring);
+  --color-terminal-green: var(--terminal-green);
+  --color-terminal-amber: var(--terminal-amber);
+  --color-terminal-red: var(--terminal-red);
+  --color-terminal-blue: var(--terminal-blue);
+  --color-terminal-cyan: var(--terminal-cyan);
+  --color-terminal-magenta: var(--terminal-magenta);
+  --radius-sm: calc(var(--radius) - 2px);
+  --radius-md: var(--radius);
+  --radius-lg: calc(var(--radius) + 2px);
+  --radius-xl: calc(var(--radius) + 4px);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+
+  body {
+    @apply bg-background text-foreground font-mono;
+    font-family: 'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, 'Courier New', monospace;
+    font-size: var(--font-size);
+    line-height: 1.5;
+  }
+}
+
+/**
+ * Lark Terminal Typography System
+ */
+@layer base {
+  :where(:not(:has([class*=" text-"]), :not(:has([class^="text-"])))) {
+    h1 {
+      font-size: 1.5rem; /* text-2xl */
+      font-weight: var(--font-weight-medium);
+      line-height: 1.4;
+      font-family: 'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, 'Courier New', monospace;
+      letter-spacing: -0.025em;
+    }
+
+    h2 {
+      font-size: 1.25rem; /* text-xl */
+      font-weight: var(--font-weight-medium);
+      line-height: 1.4;
+      font-family: 'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, 'Courier New', monospace;
+      letter-spacing: -0.025em;
+    }
+
+    h3 {
+      font-size: 1.125rem; /* text-lg */
+      font-weight: var(--font-weight-medium);
+      line-height: 1.4;
+      font-family: 'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, 'Courier New', monospace;
+    }
+
+    h4 {
+      font-size: 1rem; /* text-base */
+      font-weight: var(--font-weight-medium);
+      line-height: 1.4;
+      font-family: 'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, 'Courier New', monospace;
+    }
+
+    p {
+      font-size: 1rem; /* text-base */
+      font-weight: var(--font-weight-normal);
+      line-height: 1.5;
+      font-family: 'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, 'Courier New', monospace;
+    }
+
+    label {
+      font-size: 0.875rem; /* text-sm */
+      font-weight: var(--font-weight-medium);
+      line-height: 1.4;
+      font-family: 'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, 'Courier New', monospace;
+    }
+
+    button {
+      font-size: 0.875rem; /* text-sm */
+      font-weight: var(--font-weight-medium);
+      line-height: 1.4;
+      font-family: 'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, 'Courier New', monospace;
+    }
+
+    input {
+      font-size: 0.875rem; /* text-sm */
+      font-weight: var(--font-weight-normal);
+      line-height: 1.4;
+      font-family: 'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, 'Courier New', monospace;
+    }
+  }
+}
+
+/**
+ * Lark Scrollbar System
+ */
+.subtle-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(0, 0, 0, 0.1) transparent;
+}
+
+.subtle-scrollbar::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.subtle-scrollbar::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.1);
+  border-radius: 4px;
+  transition: background-color 0.2s ease;
+}
+
+.subtle-scrollbar::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(0, 0, 0, 0.2);
+}
+
+.subtle-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.dark .subtle-scrollbar {
+  scrollbar-color: rgba(255, 255, 255, 0.1) transparent;
+}
+
+.dark .subtle-scrollbar::-webkit-scrollbar-thumb {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.dark .subtle-scrollbar::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+/**
+ * Lark Component Patterns
+ */
+@layer components {
+  /* Terminal Button Pattern */
+  .terminal-button {
+    @apply inline-flex items-center px-3 py-1.5 text-sm font-mono bg-transparent border border-border rounded hover:bg-muted/50 transition-colors duration-200 ease-out relative;
+  }
+
+  .terminal-button::before {
+    content: '';
+    @apply absolute left-0 top-0 w-px h-full bg-primary transform scale-y-0 transition-transform duration-200 ease-out;
+  }
+  
+  .terminal-button:hover::before {
+    @apply transform scale-y-100;
+  }
+
+  /* Terminal Input Pattern */  
+  .terminal-input {
+    @apply w-full px-3 py-2 bg-input border border-border rounded font-mono text-sm focus:outline-none focus:ring-2 focus:ring-ring transition-all duration-200 ease-out;
+  }
+
+  .terminal-input:focus {
+    @apply border-ring;
+  }
+
+  /* Terminal Card Pattern */
+  .terminal-card {
+    @apply bg-card border border-border rounded-lg p-4 hover:bg-muted/20 transition-colors duration-200 ease-out animate-in fade-in-0 duration-150;
+  }
+
+  /* Terminal Status Indicators */
+  .status-dot {
+    @apply w-2 h-2 rounded-full;
+  }
+  
+  .status-dot.active {
+    @apply bg-terminal-green animate-pulse;
+  }
+  
+  .status-dot.warning {
+    @apply bg-terminal-amber animate-pulse;
+  }
+  
+  .status-dot.error {
+    @apply bg-terminal-red animate-pulse;
+  }
+  
+  .status-dot.inactive {
+    @apply bg-muted-foreground;
+  }
+
+  /* Terminal Code Blocks */
+  .terminal-code {
+    @apply bg-muted px-2 py-1 rounded font-mono text-xs border;
+  }
+
+  /* Lark Animation Classes */
+  .animate-underline {
+    @apply relative transition-all duration-200 ease-out;
+  }
+  
+  .animate-underline::after {
+    content: '';
+    @apply absolute bottom-0 left-0 w-full h-px bg-current transform scale-x-0 transition-transform duration-200 ease-out;
+  }
+  
+  .animate-underline:hover::after {
+    @apply transform scale-x-100;
+  }
+
+  .animate-terminal-fade {
+    @apply animate-in fade-in-0 duration-150 ease-out;
+  }
+}
+
+/**
+ * Responsive Motion Preferences
+ */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation: none !important;
+    transition: none !important;
+  }
+  
+  .terminal-button::before,
+  .animate-underline::after {
+    display: none !important;
+  }
+}
+
+/* Remove tactical grid overlay for cleaner terminal look */
+html {
+  font-size: var(--font-size);
+}
