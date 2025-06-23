@@ -62,7 +62,7 @@ const ICONS = {
   pc: 'pc', // Point Cloud
   ms: 'ms', // Mesh
   gs: 'gs', // Gaussian Splats
-  ai: 'ai', // AI Generated
+  ag: 'ag', // AI Generated (changed from 'ai')
   
   // Actions
   sv: 'sv', // Save
@@ -74,10 +74,10 @@ const ICONS = {
   
   // System
   cp: 'cp', // Compute/CPU
-  tm: 'tm', // Time
+  ti: 'ti', // Time (changed from 'tm')
   db: 'db', // Database
   nw: 'nw', // Network
-  st: 'st'  // Storage
+  sg: 'sg'  // Storage (changed from 'st')
 } as const;
 
 export default function App() {

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test App Loading</title>
+    <script type="module">
+        async function testAppLoad() {
+            try {
+                console.log('Testing React import...');
+                const React = await import('react');
+                console.log('✓ React loaded successfully');
+                
+                console.log('Testing ReactDOM import...');
+                const ReactDOM = await import('react-dom/client');
+                console.log('✓ ReactDOM loaded successfully');
+                
+                console.log('Testing App import...');
+                const AppModule = await import('./App.tsx');
+                console.log('✓ App module loaded successfully');
+                
+                console.log('✓ All imports successful - app should work!');
+                
+                // Try to render
+                const root = ReactDOM.createRoot(document.getElementById('root'));
+                root.render(React.createElement(AppModule.default));
+                console.log('✓ App rendered successfully!');
+                
+            } catch (error) {
+                console.error('✗ Error loading app:', error);
+                document.getElementById('error').textContent = error.message;
+            }
+        }
+        
+        testAppLoad();
+    </script>
+</head>
+<body>
+    <h1>App Loading Test</h1>
+    <div id="root"></div>
+    <div id="error" style="color: red; margin-top: 20px;"></div>
+</body>
+</html>
