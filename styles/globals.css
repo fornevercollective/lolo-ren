@@ -139,7 +139,7 @@
 
 @layer base {
   * {
-    @apply border-border outline-ring/50;
+    @apply border-border;
   }
 
   body {
@@ -283,7 +283,7 @@
 
   /* Terminal Card Pattern */
   .terminal-card {
-    @apply bg-card border border-border rounded-lg p-4 hover:bg-muted/20 transition-colors duration-200 ease-out animate-in fade-in-0 duration-150;
+    @apply bg-card border border-border rounded-lg p-4 hover:bg-muted/20 transition-colors duration-200 ease-out;
   }
 
   /* Terminal Status Indicators */
