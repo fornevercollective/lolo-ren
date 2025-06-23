@@ -20,7 +20,6 @@
   <!-- Preconnect to external resources -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link rel="preconnect" href="https://esm.sh" />
   
   <!-- Terminal Monospace Font System -->
   <link href="https://fonts.googleapis.com/css2?family=SF+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
@@ -32,9 +31,7 @@
   <script src="https://cdn.tailwindcss.com?plugins=forms,typography,aspect-ratio,container-queries"></script>
   
   <!-- Load Global CSS -->
-  <style>
-    @import url('/styles/globals.css');
-  </style>
+  <link rel="stylesheet" href="./styles/globals.css" />
   
   <!-- Theme Detection Script (executed immediately to prevent flash) -->
   <script>
@@ -186,213 +183,8 @@
   <!-- React Application Root -->
   <div id="root"></div>
 
-  <!-- Import Map for Module Resolution -->
-  <script type="importmap">
-    {
-      "imports": {
-        "react": "https://esm.sh/react@18.3.1",
-        "react-dom": "https://esm.sh/react-dom@18.3.1",
-        "react-dom/client": "https://esm.sh/react-dom@18.3.1/client",
-        "three": "https://esm.sh/three@0.176.0",
-        "three/examples/jsm/controls/OrbitControls": "https://esm.sh/three@0.176.0/examples/jsm/controls/OrbitControls",
-        "react-hook-form": "https://esm.sh/react-hook-form@7.55.0",
-        "sonner": "https://esm.sh/sonner@2.0.3",
-        "lucide-react": "https://esm.sh/lucide-react@0.445.0",
-        "recharts": "https://esm.sh/recharts@2.12.7",
-        "react-slick": "https://esm.sh/react-slick@0.30.2",
-        "react-responsive-masonry": "https://esm.sh/react-responsive-masonry@2.1.7",
-        "react-dnd": "https://esm.sh/react-dnd@16.0.1",
-        "framer-motion": "https://esm.sh/framer-motion@11.5.4",
-        "@floating-ui/react": "https://esm.sh/@floating-ui/react@0.26.23",
-        "re-resizable": "https://esm.sh/re-resizable@6.9.11"
-      }
-    }
-  </script>
-
-  <!-- Application Loading and Initialization Script -->
-  <script type="module">
-    // Enhanced loading management
-    const loadingElement = document.getElementById('terminal-loading');
-    const rootElement = document.getElementById('root');
-    
-    // Terminal-style loading messages
-    const loadingMessages = [
-      'loading neural networks...',
-      'initializing depth processors...',
-      'connecting stability ai...',
-      'calibrating sensors...',
-      'mounting interface...'
-    ];
-    
-    let messageIndex = 0;
-    const statusElement = loadingElement.querySelector('.terminal-status');
-    
-    // Cycle through loading messages
-    const messageInterval = setInterval(() => {
-      if (messageIndex < loadingMessages.length) {
-        statusElement.textContent = loadingMessages[messageIndex];
-        messageIndex++;
-      } else {
-        clearInterval(messageInterval);
-      }
-    }, 800);
-
-    // Terminal startup logging
-    console.log('%c tm %c render-neural v2.1.0', 
-      'background: #25262b; color: #ffffff; padding: 2px 6px; font-family: monospace;',
-      'color: #64748b; font-family: monospace;'
-    );
-    console.log('%c spatial intelligence & neural field processing', 
-      'color: #64748b; font-family: monospace; font-size: 12px;'
-    );
-    
-    // Enhanced error handling
-    window.addEventListener('error', (event) => {
-      console.error('%c er %c system error detected:', 
-        'background: #dc2626; color: #ffffff; padding: 2px 6px; font-family: monospace;',
-        'color: #dc2626; font-family: monospace;',
-        event.error
-      );
-    });
-
-    window.addEventListener('unhandledrejection', (event) => {
-      console.error('%c wr %c unhandled promise rejection:', 
-        'background: #f59e0b; color: #ffffff; padding: 2px 6px; font-family: monospace;',
-        'color: #f59e0b; font-family: monospace;',
-        event.reason
-      );
-    });
-
-    // Hide loading screen function
-    function hideLoadingScreen() {
-      document.body.classList.add('react-mounted');
-      clearInterval(messageInterval);
-      
-      setTimeout(() => {
-        loadingElement.style.display = 'none';
-      }, 300);
-    }
-
-    // Load and mount React application
-    async function initializeApp() {
-      try {
-        // Import React and ReactDOM
-        const React = await import('react');
-        const ReactDOM = await import('react-dom/client');
-        
-        // Update status
-        statusElement.textContent = 'loading application components...';
-        
-        // Import the actual App component from App.tsx
-        const AppModule = await import('./App.tsx');
-        const App = AppModule.default;
-        
-        // Update status
-        statusElement.textContent = 'mounting neural interface...';
-        
-        console.log('%c tm %c application components loaded', 
-          'background: #25262b; color: #ffffff; padding: 2px 6px; font-family: monospace;',
-          'color: #10b981; font-family: monospace; font-size: 12px;'
-        );
-
-        // Mount the React application
-        const root = ReactDOM.createRoot(rootElement);
-        root.render(React.createElement(App));
-        
-        console.log('%c tm %c systems nominal - interface mounted', 
-          'background: #25262b; color: #ffffff; padding: 2px 6px; font-family: monospace;',
-          'color: #10b981; font-family: monospace; font-size: 12px;'
-        );
-        
-        // Hide loading screen after mount
-        setTimeout(hideLoadingScreen, 1000);
-        
-      } catch (error) {
-        console.error('%c er %c failed to initialize application:', 
-          'background: #dc2626; color: #ffffff; padding: 2px 6px; font-family: monospace;',
-          'color: #dc2626; font-family: monospace;',
-          error
-        );
-        
-        // Show error in the root element
-        rootElement.innerHTML = `
-          <div style="
-            min-height: 100vh;
-            background-color: var(--color-background, #ffffff);
-            color: var(--color-foreground, #25262b);
-            font-family: 'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, 'Courier New', monospace;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 2rem;
-          " class="dark:bg-[oklch(0.145_0_0)] dark:text-[oklch(0.985_0_0)]">
-            <div style="text-align: center;">
-              <div style="
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                gap: 0.5rem;
-                margin-bottom: 1rem;
-              ">
-                <div style="
-                  width: 0.5rem;
-                  height: 0.5rem;
-                  border-radius: 50%;
-                  background-color: #dc2626;
-                  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-                "></div>
-                <span class="terminal-code" style="color: #dc2626;">er</span>
-                <span>system initialization failed</span>
-              </div>
-              <div style="
-                font-size: 0.75rem;
-                color: #64748b;
-                max-width: 600px;
-              ">
-                <div>neural interface could not be mounted</div>
-                <div style="margin-top: 0.5rem;">check console for detailed error information</div>
-                <div style="margin-top: 1rem; padding: 1rem; background: rgba(0,0,0,0.05); border-radius: 0.25rem; font-family: monospace;">
-                  ${error.message || 'Unknown error occurred'}
-                </div>
-              </div>
-            </div>
-          </div>
-        `;
-        
-        hideLoadingScreen();
-      }
-    }
-
-    // Performance monitoring
-    if ('performance' in window) {
-      window.addEventListener('load', () => {
-        setTimeout(() => {
-          const perfData = performance.getEntriesByType('navigation')[0];
-          const loadTime = Math.round(perfData.loadEventEnd - perfData.loadEventStart);
-          console.log('%c tm %c interface load time: %c%dms', 
-            'background: #25262b; color: #ffffff; padding: 2px 6px; font-family: monospace;',
-            'color: #64748b; font-family: monospace;',
-            'color: #10b981; font-family: monospace;',
-            loadTime
-          );
-        }, 0);
-      });
-    }
-
-    // Initialize the application
-    initializeApp();
-
-    // Fallback - hide loading after 15 seconds regardless
-    setTimeout(() => {
-      if (!document.body.classList.contains('react-mounted')) {
-        console.warn('%c wr %c application loading timeout - forcing mount', 
-          'background: #f59e0b; color: #ffffff; padding: 2px 6px; font-family: monospace;',
-          'color: #f59e0b; font-family: monospace;'
-        );
-        hideLoadingScreen();
-      }
-    }, 15000);
-  </script>
+  <!-- Vite development script -->
+  <script type="module" src="/main.tsx"></script>
 
   <!-- Service Worker Registration for PWA capabilities -->
   <script>
